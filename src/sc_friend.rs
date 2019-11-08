@@ -1,5 +1,5 @@
-use diesel::prelude::*;
 use super::models::NewFriend;
+use diesel::prelude::*;
 use exitfailure::ExitFailure;
 use failure::ResultExt;
 
@@ -11,7 +11,11 @@ pub fn create_friend(
 ) -> Result<usize, ExitFailure> {
     use super::schema::friend_t;
 
-    let new_friend = NewFriend { name, upi_id, phone };
+    let new_friend = NewFriend {
+        name,
+        upi_id,
+        phone,
+    };
 
     let rows_inserted = diesel::insert_into(friend_t::table)
         .values(&new_friend)

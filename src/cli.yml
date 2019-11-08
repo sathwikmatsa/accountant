@@ -1,0 +1,49 @@
+name: accountant
+version: "1.0"
+about: Expense tracking CLI application
+author: Sathwik Matsa <sathwikmatsa@gmail.com>
+
+settings:
+    - ArgRequiredElseHelp
+
+subcommands:
+    - friend:
+        about: add, delete or find a friend
+        settings:
+            - ArgRequiredElseHelp
+        args:
+            - name:
+                help: name for identification, must be unique
+                index: 1
+                requires:
+                    - upi_id
+                    - phone
+            - upi_id:
+                help: UPI ID
+                index: 2
+                requires:
+                    - name
+                    - phone
+            - phone:
+                help: phone number
+                index: 3
+                requires:
+                    - name
+                    - upi_id
+        subcommands:
+            - list:
+                about: list friends
+            - delete:
+                about: delete a friend and corresponding records
+                args:
+                    - name:
+                        help: name of friend
+                        index: 1
+                        required: true
+            - find:
+                about: find a friend
+                args:
+                    - pattern:
+                        help: name of friend
+                        index: 1
+                        required: true

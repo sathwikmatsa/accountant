@@ -22,11 +22,13 @@ cargo build --release
 cp target/release/accountant $INSTALL_DIR
 cp .env $INSTALL_DIR
 
-if ! cat ~/.bashrc | grep -q "alias acc"; then
+cargo clean
+
+if ! (cat ~/.bashrc | grep -q "alias acc"); then
     echo "alias acc=\"$ENV_VAR $INSTALL_DIR/accountant\"" >> ~/.bashrc
 fi
-if ! cat ~/.bashrc | grep -q "cargo/bin"; then
-    echo "export PATH=/data/data/com.termux/files/home/.cargo/bin:$PATH" >> ~/.bashrc
+if ! (cat ~/.bashrc | grep -q "cargo/bin"); then
+    echo "export PATH=/data/data/com.termux/files/home/.cargo/bin:\$PATH" >> ~/.bashrc
 fi
 
 source ~/.bashrc

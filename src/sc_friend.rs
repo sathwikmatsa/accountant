@@ -50,6 +50,11 @@ pub fn eval(matches: &ArgMatches, conn: SqliteConnection) -> Result<(), ExitFail
             .load::<Friend>(&conn)
             .with_context(|_| "Error loading friends")?;
 
+        if friends.len() == 0 {
+            eprintln!("Friends list is empty.");
+            return Ok(());
+        }
+
         println!("displaying friends list:");
         for friend in friends {
             println!("{} {} {}", friend.name, friend.upi_id, friend.phone);
@@ -65,7 +70,13 @@ pub fn eval(matches: &ArgMatches, conn: SqliteConnection) -> Result<(), ExitFail
             .load::<Friend>(&conn)
             .with_context(|_| "Error loading friends")?;
 
-        let results = friends.iter().filter(|&x| x.name.contains(&pattern));
+        let results : Vec<&Friend> = friends.iter().filter(|&x| x.name.contains(&pattern))
+            .collect();
+
+        if results.len() == 0 {
+            eprintln!("No results found with matching pattern.");
+            return Ok(());
+        }
 
         println!("search results:");
         for friend in results {

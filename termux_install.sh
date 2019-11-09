@@ -8,6 +8,7 @@ CARGO_HOME="$HOME/.cargo"
 CARGO_BIN="$CARGO_HOME/bin"
 INSTALL_DIR="$CARGO_BIN/accountant"
 
+rm -rf $INSTALL_DIR
 mkdir -p $INSTALL_DIR
 
 echo "DATABASE_URL=$INSTALL_DIR/.acc.db" > .env
@@ -23,7 +24,7 @@ cp target/release/accountant $INSTALL_DIR
 cp .env $INSTALL_DIR
 
 
-if ! (cat ~/.bashrc | grep -q "cargo/bin"); then
+if ! (cat ~/.bashrc | grep -q ".cargo/bin:"); then
     echo "export PATH=/data/data/com.termux/files/home/.cargo/bin:\$PATH" >> ~/.bashrc
 fi
 
@@ -41,7 +42,9 @@ echo "Use 'acc' command to use the application."
 
 if [ "$1" = "rmdeps" ]; then
     cargo clean
-    SOURCE_DIR=$PWD
-    cd ..
-    rm -rf $SOURCE_DIR
+    SCRIPT=$(readlink -f "$0")
+    SCRIPTPATH=$(dirname "$SCRIPT")
+    cd $SCRIPTPATH/..
+    rm -rf $SCRIPTPATH
+    echo "Removed build dependencies"
 fi

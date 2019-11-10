@@ -13,6 +13,8 @@ fn main() -> Result<(), ExitFailure> {
 
     if let Some(matches) = matches.subcommand_matches("friend") {
         sc_friend::eval(matches, conn)?;
+    } else if let Some(matches) = matches.subcommand_matches("category") {
+        sc_category::eval(matches, conn)?;
     }
     Ok(())
 }

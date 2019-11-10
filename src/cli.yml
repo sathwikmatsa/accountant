@@ -47,3 +47,22 @@ subcommands:
                         help: name of friend
                         index: 1
                         required: true
+
+    - category:
+        about: list or add new categories
+        settings:
+            - ArgRequiredElseHelp
+        args:
+            - kind:
+                help: kind of transactions
+                index: 1
+        subcommands:
+            - list:
+                about: list available categories
+            - delete:
+                about: delete a category
+                args:
+                    - kind:
+                        help: name of category
+                        index: 1
+                        required: true

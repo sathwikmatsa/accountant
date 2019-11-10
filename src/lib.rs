@@ -7,6 +7,7 @@ pub mod models;
 pub mod schema;
 
 pub mod sc_friend;
+pub mod sc_category;
 
 use diesel::prelude::*;
 use dotenv::dotenv;

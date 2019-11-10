@@ -1,4 +1,7 @@
 #!/bin/bash
+## Script to install accountant in termux android.
+
+if [ "$1" = "full" ]; then
 pkg install rust
 pkg install sqlite
 
@@ -15,6 +18,7 @@ echo "DATABASE_URL=$INSTALL_DIR/.acc.db" > .env
 ENV_VAR="DATABASE_URL=$INSTALL_DIR/.acc.db"
 
 export PATH=/data/data/com.termux/files/home/.cargo/bin:$PATH
+fi
 
 diesel setup
 
@@ -40,7 +44,7 @@ source ~/.bashrc
 echo "Successfully installed 'accountant' cli"
 echo "Use 'acc' command to use the application."
 
-if [ "$1" = "rmdeps" ]; then
+if [ "$1" = "rmdeps" ] || [ "$2" = "rmdeps" ]; then
     cargo clean
     SCRIPT=$(readlink -f "$0")
     SCRIPTPATH=$(dirname "$SCRIPT")

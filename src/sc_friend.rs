@@ -52,6 +52,7 @@ pub fn eval(matches: &ArgMatches, conn: SqliteConnection) -> Result<(), ExitFail
 
         if friends.len() == 0 {
             eprintln!("Friends list is empty.");
+            eprintln!("Use `accountant friend <name> <upi_id> <ph no>` to add a friend.");
             return Ok(());
         }
 

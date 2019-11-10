@@ -15,6 +15,10 @@ fn main() -> Result<(), ExitFailure> {
         sc_friend::eval(matches, conn)?;
     } else if let Some(matches) = matches.subcommand_matches("category") {
         sc_category::eval(matches, conn)?;
+    } else if let Some(matches) =  matches.subcommand_matches("list") {
+        expense_register::list(matches, conn)?;
+    } else {
+        expense_register::add(&matches, conn)?;
     }
     Ok(())
 }

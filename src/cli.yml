@@ -5,8 +5,62 @@ author: Sathwik Matsa <sathwikmatsa@gmail.com>
 
 settings:
     - ArgRequiredElseHelp
+args:
+    - cost:
+        help: price of the item
+        index: 1
+        requires:
+            - description
+    - description:
+        help: note on the transaction
+        index: 2
+        requires:
+            - cost
+    - category:
+        short: c
+        long: category
+        help: kind of transaction
+        takes_value: true
+        requires:
+            - cost
+            - description
+    - tags:
+        short: t
+        long: tags
+        help: tags for data analysis
+        takes_value: true
+        requires:
+            - cost
+            - description
 
 subcommands:
+    - list:
+        about: list the expenses in raw format
+        settings:
+            - ArgRequiredElseHelp
+        args:
+            - first:
+                short: f
+                long: first
+                help: display first `n` expenses
+                takes_value: true
+                conflicts_with:
+                    - last
+                    - all
+            - last:
+                short: l
+                long: last
+                help: display latest `n` expenses
+                takes_value: true
+                conflicts_with:
+                    - first
+                    - all
+            - all:
+                long: all
+                help: display all expenses
+                conflicts_with:
+                    - first
+                    - last
     - friend:
         about: add, delete or find a friend
         settings:

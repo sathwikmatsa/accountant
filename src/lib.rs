@@ -8,6 +8,7 @@ pub mod schema;
 
 pub mod sc_friend;
 pub mod sc_category;
+pub mod expense_register;
 
 use diesel::prelude::*;
 use dotenv::dotenv;

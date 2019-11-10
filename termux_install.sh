@@ -6,6 +6,7 @@ pkg install rust
 pkg install sqlite
 
 cargo install diesel_cli --no-default-features --features sqlite
+fi
 
 CARGO_HOME="$HOME/.cargo"
 CARGO_BIN="$CARGO_HOME/bin"
@@ -18,7 +19,6 @@ echo "DATABASE_URL=$INSTALL_DIR/.acc.db" > .env
 ENV_VAR="DATABASE_URL=$INSTALL_DIR/.acc.db"
 
 export PATH=/data/data/com.termux/files/home/.cargo/bin:$PATH
-fi
 
 diesel setup
 
@@ -34,8 +34,8 @@ fi
 
 echo "#!/bin/sh" > $HOME/../usr/bin/acc
 echo "#!/bin/sh" > $HOME/../usr/bin/accountant
-echo "$ENV_VAR $INSTALL_DIR/accountant" >> $HOME/../usr/bin/acc
-echo "$ENV_VAR $INSTALL_DIR/accountant" >> $HOME/../usr/bin/accountant
+echo "$ENV_VAR $INSTALL_DIR/accountant \"\$@\"" >> $HOME/../usr/bin/acc
+echo "$ENV_VAR $INSTALL_DIR/accountant \"\$@\"" >> $HOME/../usr/bin/accountant
 chmod a+x $HOME/../usr/bin/acc
 chmod a+x $HOME/../usr/bin/accountant
 

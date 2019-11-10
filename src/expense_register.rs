@@ -18,7 +18,7 @@ fn create_expense(
         cost: price,
         description: desc,
         category: c,
-        tags: t
+        tags: t,
     };
 
     let rows_inserted = diesel::insert_into(expense_t)
@@ -46,25 +46,30 @@ pub fn list(matches: &ArgMatches, conn: SqliteConnection) -> Result<(), ExitFail
     let mut end = expenses.len();
 
     if let Some(first) = matches.value_of("first") {
-        let n : usize = first
+        let n: usize = first
             .parse::<usize>()
             .with_context(|_| "Value provided for --first is not a valid number")?;
 
         if n < expenses.len() {
             end = n;
-            println!("displaying first {} expenses: [cost, description, category, tags, ts]", n);
+            println!(
+                "displaying first {} expenses: [cost, description, category, tags, ts]",
+                n
+            );
         } else {
             println!("displaying all expenses: [cost, description, category, tags, ts]");
         }
-
     } else if let Some(last) = matches.value_of("last") {
-        let n : usize = last
+        let n: usize = last
             .parse::<usize>()
             .with_context(|_| "Value provided for --last is not a valid number")?;
 
         if n < expenses.len() {
             start = expenses.len() - n;
-            println!("displaying latest {} expenses: [cost, description, category, tags, ts]", n);
+            println!(
+                "displaying latest {} expenses: [cost, description, category, tags, ts]",
+                n
+            );
         } else {
             println!("displaying all expenses: [cost, description, category, tags, ts]");
         }
@@ -90,8 +95,8 @@ pub fn add(matches: &ArgMatches, conn: SqliteConnection) -> Result<(), ExitFailu
     let mut category_registered = false;
 
     {
-        use super::schema::category_t::dsl::*;
         use super::models::Category;
+        use super::schema::category_t::dsl::*;
         let categories: String = category_t
             .load::<Category>(&conn)
             .with_context(|_| "Error loading categories")?
@@ -104,11 +109,16 @@ pub fn add(matches: &ArgMatches, conn: SqliteConnection) -> Result<(), ExitFailu
     }
 
     if !category_registered {
-        let error = Err(failure::err_msg(format!("No category with name: {}", category_arg)));
+        let error = Err(failure::err_msg(format!(
+            "No category with name: {}",
+            category_arg
+        )));
         let _ = Ok::<(), ExitFailure>(error.context("Registering expense failed")?);
     }
 
-    let price : f32 = matches.value_of("cost").unwrap()
+    let price: f32 = matches
+        .value_of("cost")
+        .unwrap()
         .parse::<f32>()
         .with_context(|_| "Cost value is not a valid number")?;
 
@@ -118,7 +128,7 @@ pub fn add(matches: &ArgMatches, conn: SqliteConnection) -> Result<(), ExitFailu
         matches.value_of("description").unwrap(),
         category_arg,
         matches.value_of("tags").unwrap_or("unspecified"),
-        )?;
+    )?;
 
     if rows_added != 0 {
         println!("Successfully registered the expense in database.");

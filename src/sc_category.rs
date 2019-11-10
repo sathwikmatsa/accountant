@@ -5,14 +5,11 @@ use diesel::prelude::*;
 use exitfailure::ExitFailure;
 use failure::ResultExt;
 
-fn create_category(
-    conn: &SqliteConnection,
-    category_name: &str,
-) -> Result<usize, ExitFailure> {
+fn create_category(conn: &SqliteConnection, category_name: &str) -> Result<usize, ExitFailure> {
     use super::schema::category_t::dsl::*;
 
     let new_category = NewCategory {
-        kind: category_name
+        kind: category_name,
     };
 
     let rows_inserted = diesel::insert_into(category_t)
@@ -31,7 +28,10 @@ fn delete_category(conn: &SqliteConnection, category_name: &str) -> Result<usize
         .with_context(|_| "Error deleting category")?;
 
     if rows_deleted == 0 {
-        let error = Err(failure::err_msg(format!("No category with name: {}", category_name)));
+        let error = Err(failure::err_msg(format!(
+            "No category with name: {}",
+            category_name
+        )));
         let _ = Ok::<(), ExitFailure>(error.context("Delete operation failed")?);
     }
 
@@ -62,10 +62,7 @@ pub fn eval(matches: &ArgMatches, conn: SqliteConnection) -> Result<(), ExitFail
             println!("Successfully deleted from database.");
         }
     } else {
-        let rows_added = create_category(
-            &conn,
-            matches.value_of("kind").unwrap()
-        )?;
+        let rows_added = create_category(&conn, matches.value_of("kind").unwrap())?;
 
         if rows_added != 0 {
             println!("Successfully added to database.");

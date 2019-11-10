@@ -1,7 +1,7 @@
-use chrono::naive::NaiveDateTime;
-use super::schema::friend_t;
 use super::schema::category_t;
 use super::schema::expense_t;
+use super::schema::friend_t;
+use chrono::naive::NaiveDateTime;
 
 #[derive(Queryable)]
 pub struct Friend {
@@ -26,9 +26,8 @@ pub struct Category {
 #[derive(Insertable)]
 #[table_name = "category_t"]
 pub struct NewCategory<'a> {
-    pub kind: &'a str
+    pub kind: &'a str,
 }
-
 
 #[derive(Queryable)]
 pub struct Expense {
@@ -37,7 +36,7 @@ pub struct Expense {
     pub description: String,
     pub category: String,
     pub tags: String,
-    pub ts: NaiveDateTime
+    pub ts: NaiveDateTime,
 }
 
 #[derive(Insertable)]
@@ -46,5 +45,5 @@ pub struct NewExpense<'a> {
     pub cost: f32,
     pub description: &'a str,
     pub category: &'a str,
-    pub tags: &'a str
+    pub tags: &'a str,
 }

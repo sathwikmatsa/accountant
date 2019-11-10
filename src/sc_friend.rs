@@ -71,7 +71,9 @@ pub fn eval(matches: &ArgMatches, conn: SqliteConnection) -> Result<(), ExitFail
             .load::<Friend>(&conn)
             .with_context(|_| "Error loading friends")?;
 
-        let results : Vec<&Friend> = friends.iter().filter(|&x| x.name.contains(&pattern))
+        let results: Vec<&Friend> = friends
+            .iter()
+            .filter(|&x| x.name.contains(&pattern))
             .collect();
 
         if results.len() == 0 {

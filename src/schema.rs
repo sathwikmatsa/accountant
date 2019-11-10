@@ -23,8 +23,4 @@ table! {
     }
 }
 
-allow_tables_to_appear_in_same_query!(
-    category_t,
-    expense_t,
-    friend_t,
-);
+allow_tables_to_appear_in_same_query!(category_t, expense_t, friend_t,);

@@ -6,9 +6,9 @@ extern crate failure;
 pub mod models;
 pub mod schema;
 
-pub mod sc_friend;
-pub mod sc_category;
 pub mod expense_register;
+pub mod sc_category;
+pub mod sc_friend;
 
 use diesel::prelude::*;
 use dotenv::dotenv;
